@@ -19,7 +19,7 @@
 ## Installation and usage
 1) Clone this repository  
 ```
-[git clone https://github.com/ihtasham42/social-media-app.git](https://github.com/nitinpathekar/Online-discussion-Forum.git)
+git clone https://github.com/nitinpathekar/Online-discussion-Forum.git 
 ```
 2) Install dependencies  
 ```

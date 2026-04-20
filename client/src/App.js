@@ -1,68 +1,50 @@
-import "@mui/material";
-import "react-icons";
-import "react-icons/bi";
-import "react-icons/md";
-import "react-icons/bs";
-import "react-router-dom";
-import { CssBaseline } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  useParams,
-  useSearchParams,
-} from "react-router-dom";
-import theme from "./theme";
-
-import PostView from "./components/views/PostView";
-import CreatePostView from "./components/views/CreatePostView";
-import ProfileView from "./components/views/ProfileView";
-import LoginView from "./components/views/LoginView";
-import SignupView from "./components/views/SignupView";
-import ExploreView from "./components/views/ExploreView";
+import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
-import SearchView from "./components/views/SearchView";
-import MessengerView from "./components/views/MessengerView";
-import { initiateSocketConnection, socket } from "./helpers/socketHelper";
-import { useEffect } from "react";
-import { BASE_URL } from "./config";
-import { io } from "socket.io-client";
+import Navbar from "./components/Navbar";
 
+import HomePage from "./pages/HomePage";
+import PostDetailPage from "./pages/PostDetailPage";
+import CreatePostPage from "./pages/CreatePostPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+
+/*
+  App.js — root component.
+  Wraps everything in AuthProvider so all pages can access user state.
+  Routes:
+    /              → Home (all questions)
+    /posts/:id     → Single question + answers
+    /posts/create  → Ask a question (protected)
+    /login         → Login
+    /register      → Register
+*/
 function App() {
-  initiateSocketConnection();
-
   return (
-    <ThemeProvider theme={theme}>
+    <AuthProvider>
       <BrowserRouter>
-        <CssBaseline />
+        <Navbar />
         <Routes>
-          <Route path="/" element={<ExploreView />} />
-          <Route path="/posts/:id" element={<PostView />} />
+          <Route path="/" element={<HomePage />} />
+
+          <Route path="/posts/:id" element={<PostDetailPage />} />
+
           <Route
             path="/posts/create"
             element={
               <PrivateRoute>
-                <CreatePostView />
+                <CreatePostPage />
               </PrivateRoute>
             }
           />
-          <Route
-            path="/messenger"
-            element={
-              <PrivateRoute>
-                <MessengerView />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/search" element={<SearchView />} />
-          <Route path="/users/:id" element={<ProfileView />} />
-          <Route path="/login" element={<LoginView />} />
-          <Route path="/signup" element={<SignupView />} />
+
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
       </BrowserRouter>
-    </ThemeProvider>
+    </AuthProvider>
   );
 }
 

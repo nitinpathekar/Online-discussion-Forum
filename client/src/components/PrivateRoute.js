@@ -1,9 +1,19 @@
 import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import { isLoggedIn } from "../helpers/authHelper";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-const PrivateRoute = ({ children }) => {
-  return isLoggedIn() ? children : <Navigate to="/login" />;
-};
+/*
+  Wraps routes that require the user to be logged in.
+  If not logged in → redirects to /login.
+*/
+function PrivateRoute({ children }) {
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
 
 export default PrivateRoute;

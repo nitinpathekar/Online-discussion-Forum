@@ -1,17 +1,1 @@
-import { initiateSocketConnection } from "./socketHelper";
-
-const isLoggedIn = () => {
-  return JSON.parse(localStorage.getItem("user"));
-};
-
-const loginUser = (user) => {
-  localStorage.setItem("user", JSON.stringify(user));
-  initiateSocketConnection();
-};
-
-const logoutUser = () => {
-  localStorage.removeItem("user");
-  initiateSocketConnection();
-};
-
-export { loginUser, isLoggedIn, logoutUser };
+// authHelper.js — replaced by context/AuthContext.js. Kept as empty stub.
